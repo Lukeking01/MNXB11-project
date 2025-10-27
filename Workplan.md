@@ -18,9 +18,11 @@ convertion from csv to root ttree
 ## Analysis
  ### Solar activity (Mean temp, per time)
  ### Birthday temperature change
- ### Climate shift
+ ### Climate shift (Lukas)
+ change in maximum and minimum temperature over the years.
 
 ## Plotting
+Plotting climate shift (Lukas)
 
 ## Presentation
 
