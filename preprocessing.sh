@@ -1,1 +1,1 @@
-./bash/clean.shcit
+./bash/clean.sh
