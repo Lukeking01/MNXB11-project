@@ -7,6 +7,9 @@ Team members: Lukas Nord, Jens Hieronymus, Linn Preuss Jelvez.
 
 ## Preprocessing
 ### Clean up (Jens)
+- extract tar files
+- filer only Good (G) data
+- change date to 3 entries of year, month, day
 ### Filter (Linn)
 
 ## Read in data (Lukas)
