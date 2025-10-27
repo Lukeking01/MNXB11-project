@@ -28,3 +28,7 @@ YYYY-MM-DD Name LastName  <email@somewhere>
 	* Checking directory structure
 	* Added Workplan.md
 
+2025-10-27 Lukas Nord
+	csv_to_root code made
+	
+	* Wrote code that can convert a csv file, using our format into a root ttree
