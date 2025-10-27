@@ -55,3 +55,45 @@ awk -F';' '
 done
 cd ..
 cd ..
+
+
+
+cd datasets
+for f in clean/*.csv; do
+  filename=$(basename "$f")
+  output_file="B-days/$filename"
+  awk -F';''
+   BEGIN { OFS=";"}
+
+   if ($2 == "11" && $3 == "06") ||
+    ($2 == "04" && $3 == "12") || 
+    ($2 == "03" && $3 == "11") { print $0 }
+      }
+    }
+  ' "$f" > "$output_file"
+  
+  filtered_lines=$(wc -l < "$output_file")
+  echo "Lines: $original_lines → $filtered_lines"
+  echo "Saved to: $output_file"
+  echo "---"
+done
+
+
+start_hour="11"
+stop_hour="15"
+for f in clean/*.csv; do
+  echo "Processing $f - hours ${start_hour}-${stop_hour}"
+  original_lines=$(wc -l < "$f")
+  filename=$(basename "$f")
+  output_file="Solar/$filename"
+  awk -F';' -v start="$start_hour" -v end="$stop_hour" '
+    BEGIN { OFS=";" }
+    $4 >= start && $4 <= end
+  ' "$f" > "$output_file"
+  
+  filtered_lines=$(wc -l < "$output_file")
+  echo "Lines: $original_lines → $filtered_lines"
+  echo "Saved to: $output_file"
+  echo "---"
+done
+
