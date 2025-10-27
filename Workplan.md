@@ -10,6 +10,7 @@ Team members: Lukas Nord, Jens Hieronymus, Linn Preuss Jelvez.
 ### Filter (Linn)
 
 ## Read in data (Lukas)
+convertion from csv to root ttree
 
 ## Analysis
  ### Solar activity (Mean temp, per time)
