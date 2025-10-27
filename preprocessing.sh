@@ -1,0 +1,1 @@
+./bash/clean.shcit
