@@ -60,16 +60,15 @@ cd ..
 
 cd datasets
 for f in clean/*.csv; do
+  original_lines=$(wc -l < "$f")
   filename=$(basename "$f")
   output_file="B-days/$filename"
-  awk -F';''
+  awk -F';' '
    BEGIN { OFS=";"}
 
-   if ($2 == "11" && $3 == "06") ||
+    ($2 == "11" && $3 == "06") ||
     ($2 == "04" && $3 == "12") || 
     ($2 == "03" && $3 == "11") { print $0 }
-      }
-    }
   ' "$f" > "$output_file"
   
   filtered_lines=$(wc -l < "$output_file")
