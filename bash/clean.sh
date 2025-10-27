@@ -47,11 +47,9 @@ awk -F';' '
         split($2, t, ":")                    # time -> hour
         gsub(/^0+/, "", t[1])                # strip leading zeros in hour
         if (t[1] == "") t[1] = 0
-        print d[1], d[2], d[3], t[1], $3, c, lat, lon
+        print d[1], d[2], d[3], t[1], $3, lat, lon
       }
     }
   ' "$f" > tmp && mv tmp "$f"
   wc -l "$f"
 done
-cd ..
-cd ..
