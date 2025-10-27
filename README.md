@@ -71,4 +71,3 @@ make -j8 install # If you are on an 8-core machine
 
 Make sure to document how to do this for any library you choose to use!
 
-Have fun!
