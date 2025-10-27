@@ -6,10 +6,10 @@ Team members: Lukas Nord, Jens Hieronymus, Linn Preuss Jelvez.
 # Plan
 
 ## Preprocessing
-### Clean up
-### Filter
+### Clean up (Jens)
+### Filter (Linn)
 
-## Read in data
+## Read in data (Lukas)
 
 ## Analysis
  ### Solar activity (Mean temp, per time)
