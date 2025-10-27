@@ -9,7 +9,7 @@
 // CSV format: year,month,day,hour,temperature,longitude,latitude
 
 // Full usage:
-// g++ ../../src/csv_to_root.cxx $(root-config --cflags --libs) -o csv_to_root
+// g++ csv_to_root.cxx $(root-config --cflags --libs) -o csv_to_root
 // ./csv_to_root input.csv [output.root]
 // TFile *f = TFile::Open("file.root")
 // TTree *temps = (TTree*)f->Get("temps")
@@ -50,8 +50,9 @@ int main(int argc, char* argv[]) {
     tree->Branch("day", &day, "day/I");
     tree->Branch("hour", &hour, "hour/I");
     tree->Branch("temperature", &temperature, "temperature/D");
-    tree->Branch("longitude", &longitude, "longitude/D");
     tree->Branch("latitude", &latitude, "latitude/D");
+    tree->Branch("longitude", &longitude, "longitude/D");
+    
 
     std::string line;
     long nLines = 0;
@@ -62,14 +63,14 @@ int main(int argc, char* argv[]) {
         std::stringstream ss(line);
         std::string token;
 
-        // Parse 7 comma-separated values
-        if (!std::getline(ss, token, ',')) continue;  year = std::stoi(token);
-        if (!std::getline(ss, token, ',')) continue;  month = std::stoi(token);
-        if (!std::getline(ss, token, ',')) continue;  day = std::stoi(token);
-        if (!std::getline(ss, token, ',')) continue;  hour = std::stoi(token);
-        if (!std::getline(ss, token, ',')) continue;  temperature = std::stod(token);
-        if (!std::getline(ss, token, ',')) continue;  longitude = std::stod(token);
-        if (!std::getline(ss, token, ',')) continue;  latitude = std::stod(token);
+        // Parse 7 ;-separated values
+        if (!std::getline(ss, token, ';')) continue;  year = std::stoi(token);
+        if (!std::getline(ss, token, ';')) continue;  month = std::stoi(token);
+        if (!std::getline(ss, token, ';')) continue;  day = std::stoi(token);
+        if (!std::getline(ss, token, ';')) continue;  hour = std::stoi(token);
+        if (!std::getline(ss, token, ';')) continue;  temperature = std::stod(token);
+        if (!std::getline(ss, token, ';')) continue;  longitude = std::stod(token);
+        if (!std::getline(ss, token, ';')) continue;  latitude = std::stod(token);
 
         tree->Fill();
         ++nLines;
@@ -78,6 +79,6 @@ int main(int argc, char* argv[]) {
     outfile->Write();
     outfile->Close();
 
-    std::cout << "✅ Wrote " << nLines << " rows to " << outputFile << std::endl;
+    std::cout << "Wrote " << nLines << " rows to " << outputFile << std::endl;
     return 0;
 }
