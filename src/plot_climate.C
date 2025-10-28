@@ -70,7 +70,6 @@ void plot_climate(const char* filename = "data.root") {
 
     plotYearVsTemperature(tree);
     plotYearVsMaxMin(tree);
-    plotLatVsLon(tree);
 
     f->Close();
     std::cout << "All plots done!" << std::endl;
