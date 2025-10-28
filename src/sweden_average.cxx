@@ -57,7 +57,7 @@ int main() {
     }
 
     // Write averaged CSV
-    std::ofstream fout("datasets/Climate/sweden_average.csv");
+    std::ofstream fout("datasets/Climate/Sweden.csv");
     
 
     for (const auto& [year, data] : averages) {
@@ -70,5 +70,5 @@ int main() {
     }
 
     fout.close();
-    std::cout << "Averaged CSV saved to sweden_average.csv\n";
+    std::cout << "Averaged CSV saved to Sweden.csv\n";
 }

@@ -7,8 +7,8 @@ mkdir -p plots/max_min_temps
 for file in ./datasets/Climate/*.root; do
     city=$(basename "$file" .root)
     echo "Analyzing $city..."
-    root -l -q "./src/plot_mean_temp_trend.C(\"$file\", \"$city\")"
-    root -l -q "./src/plot_max_min_trends.C(\"$file\", \"$city\")"
+    root -l -b -q "./src/plot_mean_temp_trend.C(\"$file\", \"$city\")"
+    root -l -b -q "./src/plot_max_min_trends.C(\"$file\", \"$city\")"
 done
 
 echo "All plots saved in plots/"

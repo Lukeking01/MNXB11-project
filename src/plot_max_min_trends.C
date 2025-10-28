@@ -13,7 +13,8 @@ void plot_max_min_trends(const char* filename, const char* city = "City") {
     // Canvas setup
     auto c = new TCanvas("c", Form("%s Max/Min Temperature Trends", city), 900, 600);
     c->SetGrid();
-
+    c->SetTitle(Form("%s: Maximum and Minimum Temperatures", city));
+    
     // Profiles for averaging over year
     TProfile *pMax = new TProfile("pMax",
         Form("%s: Maximum and Minimum Temperatures;Year;Temperature [#circC]", city),
@@ -46,6 +47,11 @@ void plot_max_min_trends(const char* filename, const char* city = "City") {
     pMax->Fit(fitMax, "Q");
     pMin->Fit(fitMin, "Q");
 
+    pMax->GetXaxis()->CenterTitle(true);
+    pMax->GetYaxis()->CenterTitle(true);
+    pMin->GetXaxis()->CenterTitle(true);
+    pMin->GetYaxis()->CenterTitle(true);
+
     fitMax->SetLineColor(kRed+2);
     fitMin->SetLineColor(kBlue+2);
     fitMax->Draw("same");
@@ -53,6 +59,7 @@ void plot_max_min_trends(const char* filename, const char* city = "City") {
 
     // Legend
     auto legend = new TLegend(0, 0, 0.3, 0.2);
+    legend->SetHeader(Form("%s: Max/Min Temperature Trends", city), "C");
     legend->AddEntry(pMax, "Max temperature", "lep");
     legend->AddEntry(fitMax, Form("Max trend: %.2f #pm %.2f C/century",
                                   100*fitMax->GetParameter(1), 100*fitMax->GetParError(1)), "l");
@@ -62,7 +69,7 @@ void plot_max_min_trends(const char* filename, const char* city = "City") {
     legend->Draw();
 
     // Save plot
-    gSystem->mkdir("plots", kTRUE);
+    
     c->SaveAs(Form("plots/max_min_temps/%s_max_min_trends.pdf", city));
 
     std::cout << "  Saved " << city << " plot with max/min trends." << std::endl;
