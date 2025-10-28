@@ -5,7 +5,8 @@
 void rootlogon() {
   // Add any code here you want to run automatically when you launch ROOT. Here
   // are some example style settings you can use!
-  // std::cout << "This output comes from the rootlogon.C macro which ROOT will "
+  // std::cout << "This output comes from the rootlogon.C macro which ROOT will
+  // "
   //              "run automatically on startup!"
   //           << std::endl;
   gStyle->SetOptStat(
@@ -20,4 +21,6 @@ void rootlogon() {
   gStyle->SetPadRightMargin(0.05);
   gStyle->SetPadBottomMargin(0.16);
   gStyle->SetPadLeftMargin(0.16);
+  gROOT->LoadMacro("src/solar.cxx");
+  gROOT->LoadMacro("src/plot_solar.cxx");
 }
