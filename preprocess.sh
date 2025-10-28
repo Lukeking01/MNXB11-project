@@ -12,7 +12,9 @@ for city in datasets/clean/*.csv; do
     ./build/climate $(basename "$city" .csv).csv
 done
 
+# Remove Halmstad
+rm ./datasets/Climate/Halmstad.csv
 ./build/sweden_average
 ./bash/csv_root.sh 
 
-# rm ./datasets/Climate/*.csv
+rm ./datasets/Climate/*.csv
