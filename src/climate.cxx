@@ -64,6 +64,6 @@ int main(int argc, char* argv[]) {
 
   output.close();
 
-  std::cout << "Data written to " << city <<".csv\n";
+  std::cout << "Data written to " << city <<"\n";
   return 0;
 }
