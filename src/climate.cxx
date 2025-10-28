@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
   std::string city = argv[1];
   std::ifstream input("datasets/clean/" + city);
   if (!input.is_open()) {
-    std::cerr << "Could not open input.csv\n";
+    std::cerr << "Could not open " << city << ".csv\n";
     return 1;
   }
 
@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 
   std::ofstream output("datasets/Climate/" + city);
   if (!output.is_open()) {
-    std::cerr << "Could not open output.csv\n";
+    std::cerr << "Could not open " << city << ".csv\n";
     return 1;
   }
 
@@ -64,6 +64,6 @@ int main(int argc, char* argv[]) {
 
   output.close();
 
-  std::cout << "Data written to output.csv\n";
+  std::cout << "Data written to " << city <<".csv\n";
   return 0;
 }
