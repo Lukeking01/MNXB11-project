@@ -12,7 +12,7 @@ for csv_file in ./datasets/B-days/*.csv; do
     root_file="./datasets/B-days/${filename}.root"
     
     # Run the converter
-    ./src/csv_to_root "$csv_file" "$root_file"
+    ./build/csv_to_root "$csv_file" "$root_file"
     
     echo "Converted $csv_file → $root_file"
 done
@@ -27,7 +27,7 @@ for csv_file in ./datasets/Climate/*.csv; do
     root_file="./datasets/Climate/${filename}.root"
     
     # Run the converter
-    ./src/csv_to_root "$csv_file" "$root_file"
+    ./build/csv_to_root "$csv_file" "$root_file"
     
     echo "Converted $csv_file → $root_file"
 done
@@ -42,7 +42,7 @@ for csv_file in ./datasets/Solar/*.csv; do
     root_file="./datasets/Solar/${filename}.root"
     
     # Run the converter
-    ./src/csv_to_root "$csv_file" "$root_file"
+    ./build/csv_to_root "$csv_file" "$root_file"
     
     echo "Converted $csv_file → $root_file"
 done

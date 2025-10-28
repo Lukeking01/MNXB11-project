@@ -19,7 +19,8 @@ convertion from csv to root ttree
  ### Solar activity (Mean temp, per time)
  ### Birthday temperature change
  ### Climate shift (Lukas)
- change in maximum and minimum temperature over the years.
+ change in maximum and minimum temperature over the years for each city and all of sweden.
+ change in average temp for each city and in all of sweden.
 
 ## Plotting
 Plotting climate shift (Lukas)
