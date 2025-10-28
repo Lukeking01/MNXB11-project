@@ -1,3 +1,12 @@
+#include <TFile.h>
+#include <TTree.h>
+#include <TProfile.h>
+#include <TGraphErrors.h>
+#include <TCanvas.h>
+#include <TLegend.h>
+#include <TF1.h>
+#include <iostream>
+
 void plot_max_min_trends(const char* filename, const char* city = "City") {
     TFile *f = TFile::Open(filename);
 
