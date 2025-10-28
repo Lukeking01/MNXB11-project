@@ -18,6 +18,8 @@ void plot_mean_temp_trend(const char* filename, const char* city = "City") {
     temp->Draw("0.5*(max_temp+min_temp):year >> p", "", "prof");
     p->SetLineColor(kBlue);
     p->SetMarkerStyle(20);
+    p->GetXaxis()->CenterTitle(true);
+    p->GetYaxis()->CenterTitle(true);
     p->Draw("E1");
 
     TF1 *fit = new TF1("fit", "pol1", 1850, 2025);
@@ -26,6 +28,7 @@ void plot_mean_temp_trend(const char* filename, const char* city = "City") {
     fit->Draw("SAME");
 
     auto legend = new TLegend(0, 0, 0.3, 0.2);
+    legend->SetHeader(Form("%s Mean Temperature", city), "C");
     legend->AddEntry(p, "Mean temperature", "lep");
     legend->AddEntry(fit, "Linear fit", "l");
     legend->Draw();
