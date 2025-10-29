@@ -1,4 +1,3 @@
-// solar_adjust_to_root.cpp
 #include <cmath>
 #include <filesystem>
 #include <fstream>
@@ -14,8 +13,6 @@
 namespace fs = std::filesystem;
 
 // ------------------ Solar math (UTC, on-the-hour) ------------------
-namespace solar {
-
 constexpr double PI = 3.14159265358979323846;
 constexpr double DEG2RAD = PI / 180.0;
 constexpr double I_sc = 1367.0;  // W/m^2 (solar constant)
@@ -92,8 +89,6 @@ inline double meanToaIrradiance_Wm2_sameHour(int year, int hourUTC,
   return sum / days;
 }
 
-}  // namespace solar
-
 // ------------------ Parsing utils ------------------
 static inline bool parseLine(const std::string& line, int& year, int& month,
                              int& day, int& hour, double& tempC, double& lat,
@@ -121,7 +116,7 @@ static inline bool parseLine(const std::string& line, int& year, int& month,
 }
 
 // ------------------ Main ------------------
-int adjustTemps() {
+void adjustTemps() {
   std::ios::sync_with_stdio(false);
 
   // Inputs
@@ -132,7 +127,7 @@ int adjustTemps() {
   TFile* fout = TFile::Open(out_file.string().c_str(), "RECREATE");
   if (!fout || fout->IsZombie()) {
     std::cerr << "Failed to create ROOT file: " << out_file << "\n";
-    return 1;
+    return;
   }
   TTree* tree = new TTree("temps", "Solar-adjusted temperatures");
 
@@ -160,7 +155,7 @@ int adjustTemps() {
   // Iterate files
   if (!fs::exists(in_dir) || !fs::is_directory(in_dir)) {
     std::cerr << "Input directory not found: " << in_dir << "\n";
-    return 1;
+    return;
   }
 
   for (auto const& dirent : fs::directory_iterator(in_dir)) {
@@ -191,9 +186,8 @@ int adjustTemps() {
 
       // Compute irradiances
       double G0h =
-          solar::toaHorizontalIrradiance_Wm2(year, month, day, hour, lon, lat);
-      double G0h_mean =
-          solar::meanToaIrradiance_Wm2_sameHour(year, hour, lon, lat);
+          toaHorizontalIrradiance_Wm2(year, month, day, hour, lon, lat);
+      double G0h_mean = meanToaIrradiance_Wm2_sameHour(year, hour, lon, lat);
 
       // Correction and adjusted T
       double correction = beta * (G0h - G0h_mean);
@@ -228,38 +222,6 @@ int adjustTemps() {
   std::cout << "Total lines:     " << total_lines << "\n";
   std::cout << "Bad lines:       " << bad_lines << "\n";
   std::cout << "Output ROOT:     " << out_file << "\n";
-
-  return 0;
 }
 
-void plotTempOverTime() {
-  // open the root file
-  TFile* f = TFile::Open("datasets/Solar/adjusted_temps.root");
-  TTree* t = (TTree*)f->Get("temps");  // adjust to your TTree name
-
-  // variables for branches
-  int year, month, day;
-  double temp;
-
-  t->SetBranchAddress("year", &year);
-  t->SetBranchAddress("month", &month);
-  t->SetBranchAddress("day", &day);
-  t->SetBranchAddress("temp_adj_C", &temp);
-
-  // create graph
-  int nEntries = t->GetEntries();
-  auto gr = new TGraph(nEntries);
-
-  for (int i = 0; i < nEntries; i++) {
-    t->GetEntry(i);
-
-    // fractional year: year + (month-1)/12 + (day-1)/365
-    double fractionalYear = year + (month - 1) / 12.0 + (day - 1) / 365.0;
-
-    gr->SetPoint(i, fractionalYear, temp);
-  }
-
-  gr->SetTitle("Temperature over Time;Year;Temperature");
-  gr->SetMarkerStyle(20);
-  gr->Draw("AP");
-}
+void solar() { adjustTemps(); }
