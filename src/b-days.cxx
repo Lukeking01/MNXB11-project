@@ -11,7 +11,7 @@
 
 
 void filter_time(const char* inputFile = "datasets/B-days/Lund.csv",
-                         const char* outputFile = "datasets/B-days/Lund_time.csv",
+                         const char* outputFile = "datasets/B-days/temp.csv",
                          int startHour = 10,
                          int stopHour = 15){
     std::ifstream in(inputFile);
@@ -37,8 +37,8 @@ void filter_time(const char* inputFile = "datasets/B-days/Lund.csv",
     std::cout<< " lines, kept " << kept << " lines.\n";
     }
     
-void yearly_avg(const char* inputFile = "datasets/B-days/Lund_time.csv", 
-                const char* outputFile = "datasets/B-days/Lund_avg.csv"){
+void yearly_avg(const char* inputFile = "datasets/B-days/temp.csv", 
+                const char* outputFile = "datasets/B-days/temp.csv"){
     std::ifstream in(inputFile);
 
     std::map<std::tuple<int,int,int>, std::pair<double,int>> data;
@@ -78,7 +78,7 @@ void yearly_avg(const char* inputFile = "datasets/B-days/Lund_time.csv",
 
 }
 
-void points(const char* inputFile="datasets/B-days/Lund_avg.csv",
+void points(const char* inputFile="datasets/B-days/temp.csv",
             const char* outputFile="datasets/B-days/Lund_points.csv"){
     std::string line;
     std::ifstream in(inputFile);
@@ -125,10 +125,10 @@ void points(const char* inputFile="datasets/B-days/Lund_avg.csv",
 
 
 
-int main() {
-    filter_time();
-    yearly_avg();
-    points();
+int main(int argc, char* argv[]) {
+    filter_time(argv[1], "datasets/B-days/temp.csv");
+    yearly_avg("datasets/B-days/temp.csv", "datasets/B-days/temp.csv");
+    points("datasets/B-days/temp.csv", argv[2]);
 }
 
 

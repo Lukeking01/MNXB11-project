@@ -12,3 +12,8 @@ chmod +x ./bash/solar_analysis.sh
 # Executes the climate analysis and generates plots for it
 chmod +x ./bash/climate_analysis.sh
 ./bash/climate_analysis.sh
+
+
+# Executes the bday analysis and generates plots for it
+chmod +x ./bash/bdays.sh
+./bash/bdays.sh
