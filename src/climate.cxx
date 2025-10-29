@@ -42,15 +42,19 @@ int main(int argc, char* argv[]) {
   int year{std::stoi(data[0][0])};
   double max{0};
   double min{0};
+  double mean{0};
+  int count{0};
   int y;
   double t;
   for (auto& r : data) {
     y = std::stoi(r[0]);
     if (y != year) {
-      output << year << "; " << max << "; " << min << std::endl;
+      output << year << "; " << max << "; " << min << "; "<< mean/count << std::endl;
       year = y;
       max = 0;
       min = 0;
+      mean = 0;
+      count = 0;
     }
     t = std::stod(r[4]);
     if (t < min) {
@@ -59,8 +63,10 @@ int main(int argc, char* argv[]) {
     if (t > max) {
       max = t;
     }
+    mean += t;
+    count++;
   }
-  output << year << "; " << max << "; " << min << std::endl;
+  output << year << "; " << max << "; " << min << "; "<< mean/count << std::endl;
 
   output.close();
 

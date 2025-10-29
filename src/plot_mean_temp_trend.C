@@ -18,7 +18,7 @@ void plot_mean_temp_trend(const char* filename, const char* city = "City") {
         Form("%s Mean Temperature;Year;Mean Temp [#circC]", city),
         150, 1850, 2025);
 
-    temp->Draw("0.5*(max_temp+min_temp):year >> p", "", "prof");
+    temp->Draw("mean_temp:year >> p", "", "prof");
 
     // Convert TProfile to TGraphErrors
     TGraphErrors *g = new TGraphErrors();
