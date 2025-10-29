@@ -73,8 +73,8 @@ void plot_max_min_trends(const char* filename, const char* city = "City") {
     graphMax->GetYaxis()->SetRangeUser(-30, 50);
 
     // Fit linear trends
-    TF1 *fitMax = new TF1("fitMax", "pol1", 1900, 2024);
-    TF1 *fitMin = new TF1("fitMin", "pol1", 1900, 2024);
+    TF1 *fitMax = new TF1("fitMax", "pol1", 1850, 2024);
+    TF1 *fitMin = new TF1("fitMin", "pol1", 1850, 2024);
 
     graphMax->Fit(fitMax, "Q0");
     graphMin->Fit(fitMin, "Q0");

@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
     double temperature=0, longitude=0, latitude=0;
 
     // Variables for minimal CSV
-    double max_temp=0, min_temp=0;
+    double max_temp=0, min_temp=0, mean_temp=0;
 
     // Create branches for both possibilities
     tree->Branch("year", &year, "year/I");
@@ -54,6 +54,7 @@ int main(int argc, char* argv[]) {
 
     tree->Branch("max_temp", &max_temp, "max_temp/D");
     tree->Branch("min_temp", &min_temp, "min_temp/D");
+    tree->Branch("mean_temp", &mean_temp, "mean_temp/D");
 
     std::string line;
     long nLines = 0;
@@ -82,11 +83,12 @@ int main(int argc, char* argv[]) {
 
             max_temp = min_temp = 0; // unused
         }
-        else if (tokens.size() == 3) {
+        else if (tokens.size() == 4) {
             // Minimal CSV
             year = std::stoi(tokens[0]);
             max_temp = std::stod(tokens[1]);
             min_temp = std::stod(tokens[2]);
+            mean_temp = std::stod(tokens[3]);
 
             month = day = hour = 0;
             temperature = longitude = latitude = 0;

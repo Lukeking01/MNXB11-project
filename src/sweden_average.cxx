@@ -11,6 +11,7 @@ namespace fs = std::filesystem;
 struct YearData {
     double max_sum = 0;
     double min_sum = 0;
+    double mean_sum = 0;
     int count = 0;
 };
 
@@ -33,19 +34,22 @@ int main() {
 
         while (std::getline(fin, line)) {
             std::stringstream ss(line);
-            std::string year_str, max_str, min_str;
+            std::string year_str, max_str, min_str, mean_str;
 
             if (!std::getline(ss, year_str, ';')) continue;
             if (!std::getline(ss, max_str, ';')) continue;
             if (!std::getline(ss, min_str, ';')) continue;
+            if (!std::getline(ss, mean_str, ';')) continue;
 
             try {
                 int year = std::stoi(year_str);
                 double max_temp = std::stod(max_str);
                 double min_temp = std::stod(min_str);
+                double mean_temp = std::stod(mean_str);
 
                 averages[year].max_sum += max_temp;
                 averages[year].min_sum += min_temp;
+                averages[year].mean_sum += mean_temp;
                 averages[year].count += 1;
             } catch (...) {
                 // skip malformed lines
@@ -64,9 +68,10 @@ int main() {
         if (data.count == 0) continue;
         double avg_max = data.max_sum / data.count;
         double avg_min = data.min_sum / data.count;
+        double avg_mean = data.mean_sum / data.count;
         
 
-        fout << year << ";" << avg_max << ";" << avg_min << "\n";
+        fout << year << ";" << avg_max << ";" << avg_min <<  ";" << avg_mean << "\n";
     }
 
     fout.close();
