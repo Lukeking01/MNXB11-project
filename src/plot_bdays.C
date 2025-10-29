@@ -66,5 +66,6 @@ void plot_bdays(const char* filename, const char* city="City"){
     c->Update();
     c->Draw();
 
+    c->SaveAs(Form("plots/bdays/%sbdays.pdf", city));
     }
 
