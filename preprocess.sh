@@ -4,6 +4,7 @@ g++ src/csv_to_root.cxx $(root-config --cflags --libs) -o ./build/csv_to_root
 g++ src/climate.cxx $(root-config --cflags --libs) -o ./build/climate
 g++ src/sweden_average.cxx $(root-config --cflags --libs) -o ./build/sweden_average
 
+g++ src/b-days.cxx $(root-config --cflags --libs) -o ./build/b-days
 ./bash/clean.sh
 
 for city in datasets/clean/*.csv; do
