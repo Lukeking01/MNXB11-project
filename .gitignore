@@ -31,6 +31,9 @@
 *.out
 *.app
 
+# Unknown
+*.pcm
+
 # Contents of the external folder should not be in git
 external/*
 

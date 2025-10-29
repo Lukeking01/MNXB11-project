@@ -21,6 +21,4 @@ void rootlogon() {
   gStyle->SetPadRightMargin(0.05);
   gStyle->SetPadBottomMargin(0.16);
   gStyle->SetPadLeftMargin(0.16);
-  gROOT->LoadMacro("src/solar.cxx");
-  gROOT->LoadMacro("src/plot_solar.cxx");
 }

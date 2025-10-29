@@ -16,6 +16,7 @@
 #include "TGraph.h"
 #include "TH1D.h"
 #include "TLegend.h"
+#include "TLine.h"
 #include "TMultiGraph.h"
 #include "TROOT.h"
 #include "TStyle.h"
@@ -31,15 +32,13 @@ inline bool isLeap(int y) {
 inline int dayOfYear(int y, int m, int d) {
   static const int cum[12] = {0,   31,  59,  90,  120, 151,
                               181, 212, 243, 273, 304, 334};
-  if (m < 1 || m > 12) return -1;
   int maxd = (m == 2 ? (isLeap(y) ? 29 : 28)
                      : (m == 4 || m == 6 || m == 9 || m == 11 ? 30 : 31));
-  if (d < 1 || d > maxd) return -1;
+  if (m < 1 || m > 12 || d < 1 || d > maxd) return -1;
   int J = cum[m - 1] + d;
   if (m > 2 && isLeap(y)) ++J;
-  return J;  // 1..365/366
+  return J;
 }
-
 // Month names for legend
 static const char* kMonthName[13] = {"",    "Jan", "Feb", "Mar", "Apr",
                                      "May", "Jun", "Jul", "Aug", "Sep",
@@ -216,7 +215,7 @@ int solarMonthlyNorm() {
 
   // Grid and save
   gPad->SetGrid();
-  c->SaveAs("plots/monthly_norm_temp.png");
+  c->SaveAs("plots/solar/monthly_norm_temp.png");
 
   // Also save to a ROOT file with the graphs
   TFile* fout =
@@ -232,7 +231,7 @@ int solarMonthlyNorm() {
     std::cerr << "WARNING: Could not create output ROOT file for graphs.\n";
   }
 
-  std::cout << "Wrote plots to plots/monthly_norm_temp.png\n";
+  std::cout << "Wrote plots to plots/solar/monthly_norm_temp.png\n";
   std::cout << "Wrote graphs to datasets/Solar/monthly_norm_temp.root\n";
 
   // ---------- Single timeline plot: months in succession across years
@@ -316,7 +315,7 @@ int solarMonthlyNorm() {
       L->Draw("same");
     }
 
-    c2->SaveAs("plots/monthly_norm_temp_timeline.png");
+    c2->SaveAs("plots/solar/monthly_norm_temp_timeline.png");
 
     // Save into the ROOT output as well
     TFile* fout2 =
@@ -392,7 +391,7 @@ int solarMonthlyNorm() {
     h_pow->SetLineWidth(2);
     h_pow->Draw("HIST");
 
-    c3->SaveAs("plots/solar_frequency_analysis.png");
+    c3->SaveAs("plots/solar/solar_frequency_analysis.png");
 
     // ---------- Periodogram (zoomed 2–20 years) ----------
     TH1D* h_per = new TH1D("h_per", "Periodogram;Period [years];Power", 500,
@@ -416,7 +415,7 @@ int solarMonthlyNorm() {
     h_per->SetLineColor(kRed + 1);
     h_per->SetLineWidth(2);
     h_per->Draw("HIST");
-    c4->SaveAs("plots/period_analysis.png");
+    c4->SaveAs("plots/solar/period_analysis.png");
 
     TFile* fout3 =
         TFile::Open("datasets/Solar/monthly_norm_temp.root", "UPDATE");
@@ -427,4 +426,42 @@ int solarMonthlyNorm() {
     }
   }
   return 0;
+}
+
+void plotTempOverTime() {
+  // open the root file
+  TFile* f = TFile::Open("datasets/Solar/adjusted_temps.root");
+  TTree* t = (TTree*)f->Get("temps");  // adjust to your TTree name
+
+  // variables for branches
+  int year, month, day;
+  double temp;
+
+  t->SetBranchAddress("year", &year);
+  t->SetBranchAddress("month", &month);
+  t->SetBranchAddress("day", &day);
+  t->SetBranchAddress("temp_adj_C", &temp);
+
+  // create graph
+  int nEntries = t->GetEntries();
+  auto gr = new TGraph(nEntries);
+
+  for (int i = 0; i < nEntries; i++) {
+    t->GetEntry(i);
+
+    // fractional year: year + (month-1)/12 + (day-1)/365
+    double fractionalYear = year + (month - 1) / 12.0 + (day - 1) / 365.0;
+
+    gr->SetPoint(i, fractionalYear, temp);
+  }
+
+  gr->SetTitle("Temperature over Time;Year;Temperature");
+  gr->SetMarkerStyle(20);
+  gr->SaveAs("plots/solar/TempOverTime.png");
+  gr->Draw("AP");
+}
+
+void plot_solar() {
+  plotTempOverTime();
+  solarMonthlyNorm();
 }
