@@ -15,31 +15,31 @@ YYYY-MM-DD Name LastName  <email@somewhere>
 
 # Example (entries from newest to oldest):
 
-2025-09-26 Florido Paganelli  <florido.paganelli@fysik.lu.se>
-
-	Reviewing content of project template
-
-	* Added ChangeLog.txt with comments and examples
-
-2025-09-25 Florido Paganelli  <florido.paganelli@fysik.lu.se>
-
-	Reviewing content of project template
-
-	* Checking directory structure
-	* Added Workplan.md
-
-2025-10-27 Lukas Nord
-	csv_to_root code made
+2025-10-28 Lukas Nord
+	Climate shift analysis done
 	
-	* Wrote code that can convert a csv file, using our format into a root ttree
+2025-10-28 Lukas Nord
+	climate shift analysis might be done
+
+	* Plots of the change in maximum and minimum temps for each city and for the entire country.
+	* Plots of the change in average temps for each city and for the entire country.
+
+2025-10-27 Jens Hieronymus
+	climate.cxx made
+	
+	* Wrote code that take data created by clean.sh and prepare it for data analysis, by finding the maximum and minimum temperatures for each year
 
 2025-10-27 Lukas Nord
 	climate shift analysis
 
 	* started the analysis for the climate effects on the temperature.
 
-2025-10-28 Lukas Nord
-	climate shift analysis might be done
+2025-10-27 Lukas Nord
+	csv_to_root code made
+	
+	* Wrote code that can convert a csv file, using our format into a root ttree
 
-	* Plots of the change in maximum and minimum temps for each city and for the entire country.
-	* Plots of the change in average temps for each city and for the entire country.
+2025-10-27 Jens Hieronymus
+	clean.sh made
+	
+	* Wrote code that will clean the raw data create the relevant directories for future data

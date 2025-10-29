@@ -1,73 +1,93 @@
-# MNXB11-project-template
-# About
-This folder contains a skeleton for your project that you can use as
-inspiration. Once you get started, do feel free to go ahead and replace this
-README file with one representing your project.
+# Climate Analysis – Long-Term Temperature Trends in Sweden
 
-# Directory structure
+## Overview
+This project analyses long-term temperature data from the **Swedish Meteorological and Hydrological Institute (SMHI)** to investigate trends and patterns in Swedish climate from around **1850 to 2024**.  
+The analysis focuses on three main questions:
+1. **Long-term trends:** How have average temperatures in Sweden evolved over time?  
+2. **Birthday trends:** How have temperatures changed on specific calendar dates (our birthdays) throughout the dataset?  
+3. **Solar events:** Are there any correlations between temperature variations and solar phenomena?
 
-The base directory here contains your "main" file, i.e. the C++ file that you
-will be using as your starting point in your project. The code in this file should ideally be short and just make use of the functionality that you've
-prepared in your other translation units. The majority of your code should be placed in  the two folders where you define your translation units, `src/` and `include/`. 
+All data processing, analysis, and plotting are performed using **C++**, **ROOT**, and **Bash scripts**.
 
-Do remember to add your include guards to your header files, otherwise the compiler will
-get multiple definitions if you end up loading two source files that include the
-same header.
+---
 
-In the template you can find a small translation unit called Example (in [src/Example.cxx](src/Example.cxx) and [include/Example.h](include/Example.h)) that shows some commented reminders of how the syntax for some C++ constructs work. Feel free to use this as a reference to remind yourself of how to do something while working on it but make sure to remove it from your final project version!
+## Dataset
+- **Source:** SMHI open climate data  
+- **Format:** CSV files containing temperature measurements from multiple Swedish weather stations  
+- **Time span:** ~1850 – 2024  
+- **Variables:** Daily temperature values (°C), timestamps, and station metadata  
 
-There is a demonstration of a toy project you can use for inspiration at [EinarElen/MNXB11-project-demo](https://github.com/EinarElen/MNXB11-project-demo). You should not copy code from this repository. There are some intentional bugs hiding in there, see if you can spot them. 
+CSV data are converted into ROOT files for efficient analysis.
 
-We have also included three special files in the base of the repository 
-- [.gitignore](.gitignore)
-  - This file contains regular expressions that git tells git that it shouldn't add certain file to your repository. 
-  - Your git repository should generally not contain binary files like object files or executables nor should it contain build artefacts like external libraries. 
-- [.clang-format](.clang-format)
-  - This file holds the configuration for the clang-format tool that you can use to format your code consistently 
-  - It is a good idea to keep your code formatted in a consistent manner, especially when working in groups but doing it manually is a waste of your time. Use a tool for it!
-  ```
-  # Show what the src/Example.cxx file would look like if formatted
-  clang-format src/Example.cxx 
-  # Carry out the formatting in the file directly 
-  clang-format src/Example.cxx -i
-  ```
-  - The `.clang-format` file holds the configuration that clang-format will use to determine how to format your code. By default, it will be formatted according to Google's style but you can pick any that you like from https://clang.llvm.org/docs/ClangFormatStyleOptions.html
-- [rootlogon.C](rootlogon.C)
-  - This file contains code that ROOT will execute automatically whenever you start it, a good place to place general style choices you want to make or anything else you always want to run! 
-  - Be careful to not include anything that depends on your particular machine here (e.g. absolute paths)
-# Building the project
+---
 
-The [datasets](datasets) folder contains open data from SMHI and a README.md with further information about it.
+## Methods & Tools
+- **C++** – Core data analysis and statistical calculations  
+- **ROOT** – Data handling, histogramming, fitting, and visualization  
+- **Bash** – Automation of preprocessing and execution steps  
+
+The workflow includes:
+1. Preprocessing of raw CSV files  
+2. Conversion to ROOT format  
+3. Statistical analysis (mean temperature, anomalies, trends)  
+4. Plot generation for each research question  
+
+---
+
+## Repository Structure
+    MNXB11-project/
+
+        ├── bash/ # Bash scripts for automation
+        ├── build/ # contains the built .c++ files
+        ├── datasets/
+            ├── B-days #
+            ├── clean #
+            ├── Climate #
+            ├── raw #
+            ├── Solar #
+        ├── raw/ # Raw unprocessed compressed climate data
+        ├── plots/ # Generated plots and results
+        ├── src/ # C++ source files
+        ├── preprocess.sh
+        ├── run_all.sh
+        └── README.md
 
 
-We have included a basic Makefile here which should be familiar to you. It follows the same project structure that we have been using in the course. When you add a new translation unit to the project, you have update the dependencies in the Makefile. 
 
-By default, the `all` target will be run which 
-- Compiles any `.cxx` files in the `src/` directory into object files 
-- Compiles `main.cxx` and links with all the object files in `src/`
+---
 
-You can run the `clean` target to remove any object files that have been produced as well as the `main` executable.
+## How to Run
 
-## Adding external software libraries
+1. Ensure that **ROOT** is installed and available in your environment.  
+2. Run the main bash script to execute the full pipeline:
 
-If you want to make use of external software libraries with your project, you
-will always have to tell the tool that builds your project. The Makefile included in this template will pick up any header files in the external/include directory and look for libraries in external/lib and external/lib64 so if you use external as your installation directory, you only need to add the corresponding `-l` flag to the linker.
-
-Here's an illustration of the typical process to add a (CMake based) external library
-``` sh
-# Clone or download the library you want to use 
-git clone https://somerepository.com/alibrary alibrary # The last argument determines what the directory will be called
-
-mkdir build/alibrary -pv # -p will tell mkdir to create the build/ directory if it doesn't already exist 
-# Go into the build directory
-cd build/alibrary 
-# Look up the documentation for the library to find out if there are any additional flags you need for CMake 
-
-# This command tells CMake to configure the build directory based on the source code in the ../../alibrary folder and to install the resulting headers and library files into ../../external
-cmake ../../alibrary -DCMAKE_INSTALL_PREFIX=../../external 
-# Build and install! Use -jN to launch N jobs
-make -j8 install # If you are on an 8-core machine
+```bash
+./run_project.sh
+# (or the script name defined in scripts/)
 ```
 
-Make sure to document how to do this for any library you choose to use!
+This will:
 
+- Preprocess and convert the CSV data  
+- Compile the C++ code  
+- Perform the analyses  
+- Generate plots in the `output/` folder  
+
+---
+
+## Results
+
+The analysis produces:
+
+- Long-term temperature trend plots for some Swedish stations  
+- Temperature evolution on specific dates (e.g., birthdays)  
+- Visualizations exploring temperature–solar correlations  
+
+> Results are saved as image files and can be directly used in reports or presentations.
+
+---
+
+## Notes
+
+- The dataset is large; ensure sufficient memory and disk space.   
+- All analysis parameters and output paths can be adjusted in the corresponding Bash and C++ files.
