@@ -5,10 +5,10 @@
 #include <map>      
 #include <vector> 
 #include <tuple>
-#include <TCanvas.h>
-#include <TGraph.h>
-#include <TMultiGraph.h>
-#include <TAxis.h>
+#include <algorithm>
+#include <cctype>
+#include <locale>
+
 
 void filter_time(const char* inputFile = "datasets/B-days/Lund.csv",
                          const char* outputFile = "datasets/B-days/Lund_time.csv",
@@ -62,8 +62,7 @@ void yearly_avg(const char* inputFile = "datasets/B-days/Lund_time.csv",
     }
 
     std::ofstream out(outputFile);
-    out << "Year;Month;Day;AverageTemp\n";
-
+    
     int written =0;
 
     for (const auto& [key, val] : data) {
@@ -86,22 +85,32 @@ void points(const char* inputFile="datasets/B-days/Lund_avg.csv",
 
     // separate data for each day -> vectors of year,temp
     std::map<std::pair<int,int>, std::vector<std::pair<int,double>>> data;
+    int year, month, day;
+    double avg;
 
-    while (std::getline(in, line)){
+    while (std::getline(in, line)) {
+        if (line.empty()) continue;
         std::stringstream ss(line);
-        int year, month, day, hour;
-        double avg;
-        char sep;
+        std::string token;
+        std::vector<std::string> tokens;
 
-        ss >> year >> sep >> month >> sep >> day >> sep >> hour >> sep >> avg;
-
-        if ((month==11 && day==06) || (month==03 && day==11) ||(month==04 && day==12))
-        {
-            data[{month,day}].push_back({year,avg});
+         while (std::getline(ss, token, ';')) {
+            tokens.push_back(token);
         }
+        
+        
+        year = std::stoi(tokens[0]);
+        month = std::stoi(tokens[1]);
+        day = std::stoi(tokens[2]);
+        avg = std::stod(tokens[3]);
+
+    if ((month==11 && day==6) || (month==3 && day==11) || (month==4 && day==12)) {
+        data[{month, day}].push_back({year, avg});
     }
+}
+    
     std::ofstream out(outputFile);
-    out << "Year;Month;Day;AverageTemp\n";
+    
 
     for (const auto& [key, vec] : data) {
         auto [month, day] = key;
