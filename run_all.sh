@@ -21,4 +21,4 @@ chmod +x ./bash/bdays.sh
 cd tex
 pdflatex main.tex
 rm -f *.aux *.log *.toc *.dvi *.fls *.fdb_latexmk *.out *.out.ps *.bbl *.blg
-mv main.pdf MNXB11-project.pdf
+mv main.pdf ../MNXB11-project.pdf
