@@ -10,6 +10,10 @@
 #include "TFile.h"
 #include "TTree.h"
 
+#ifdef year
+#undef year
+#endif
+
 namespace fs = std::filesystem;
 
 // ------------------ Solar math (UTC, on-the-hour) ------------------
@@ -17,8 +21,8 @@ constexpr double PI = 3.14159265358979323846;
 constexpr double DEG2RAD = PI / 180.0;
 constexpr double I_sc = 1367.0;  // W/m^2 (solar constant)
 
-inline bool isLeap(int y) {
-  return (y % 400 == 0) || (y % 4 == 0 && y % 100 != 0);
+inline bool isLeap(int year) {
+  return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);
 }
 
 inline int dayOfYear(int y, int m, int d) {
@@ -177,8 +181,8 @@ void adjustTemps() {
       ++total_lines;
       if (line.empty()) continue;
 
-      int year, month, day, hour;
-      double tempC, lat, lon;
+      int year{0}, month{0}, day{0}, hour{0};
+      double tempC{0.0}, lat{0.0}, lon{0.0};
       if (!parseLine(line, year, month, day, hour, tempC, lat, lon)) {
         ++bad_lines;
         continue;
@@ -213,7 +217,7 @@ void adjustTemps() {
   fout->cd();
   tree->Write();
 
-  tree->Draw("temperature : (year + (month-1)/12.0 + (day-1)/365.2425)", "",
+  tree->Draw("temp_adj_C : (year + (month-1)/12.0 + (day-1)/365.2425)", "",
              "AP*");
 
   fout->Close();
