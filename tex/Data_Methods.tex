@@ -1,0 +1,20 @@
+\section{Data and Methods}
+
+The data used in this project come from the Swedish Meteorological and Hydrological Institute (SMHI) and are provided as open datasets in CSV format, covering the years 1850–2024. Each file contains daily temperature measurements from several Swedish weather stations, along with metadata such as measurement quality indicators.
+
+In the preprocessing stage, all data points flagged as low quality were removed using the provided quality information. Unnecessary metadata fields were also discarded to simplify the dataset. The cleaned data were then sorted into folders corresponding to the different parts of the analysis. The C++ analysis, discussed below, was performed on these filtered CSV files.
+
+For efficient handling and statistical analysis, the processed CSV files were converted into \texttt{.root} files, which were then used for plotting and fitting in ROOT.
+
+The entire workflow, from data filtering to final visualization, is automated using a set of Bash scripts.
+
+\subsection{Climate Trends}
+The climate trend analysis was performed by calculating the annual maximum, minimum, and mean temperatures for each weather station. The same calculations were then repeated using data from all stations combined to represent Sweden as a whole. The processed data was saved in CSV format and imported into ROOT, where the temperature trends were plotted and fitted with linear functions.
+
+\subsection{Birthday Temperature Trends}
+The analysis of the temperature on our birthdays began with filtering the data to keep only the correct days each year. To be able to compare the temperatures on our birthdays accurately, the data was filtered again to only include the temperature between times 10:00 and 15:00. This resulted in some days having more data points than others and an average was taken of all the temperatures for each day. Having the resulting data sorted in time, the next step was to group the points of each day to make it easier to plot them separately. The average temperature of each day was then plotted over time to compare the temperatures between the days and see how the average temperature on each day changes over time. 
+
+{\Huge \textcolor{red}{“Just because I don’t care \\ doesn’t mean \\ I don’t understand.”}}\\\textcolor{red}{/Homer Simpson}\\
+
+\subsection{Solar Activity Period Estimation}
+The analysis for the solar activity period estimation began by filtering the temperatures to be some time around midday (11:00 to 15:00 UTC), this was done in preparation for the next step. The next step was to adjust the temperatures based on what the expected solar output would be given the time, date and location. Filtering to times around midday allows for mitigation of some effects that would be caused by the atmosphere, as well as avoid times before sunrise and after sunset where the solar output would have been 0. With these adjusted temperatures, which essentially assume the sun is directly overhead, the next steps can be taken. Next the data was compiled by day of year, so that for each day of the year, there were data-points for each location and year (time could be ignored at this point). This was used to normalize the data for each day to a value between 0 and 1. This was done so that temperatures between the days of year could be compared. Now these normalized values were averaged for each month over the data, this data was plotted. Then a fast fourier transform was done on this data to see which frequenciers were dominant, this was also converted into periods to make it easier to examine
