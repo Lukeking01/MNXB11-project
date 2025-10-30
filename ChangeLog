@@ -14,12 +14,15 @@ YYYY-MM-DD Name LastName  <email@somewhere>
 
 
 # Example (entries from newest to oldest):
+2025-10-30 Lukas Nord
+	Project report
+	* The project report was written externally in collaboration on overleaf. It is now tracked on github.
 
 2025-10-28 Lukas Nord
 	Climate shift analysis done
 	
 2025-10-28 Lukas Nord
-	climate shift analysis might be done
+	Climate shift analysis might be done
 
 	* Plots of the change in maximum and minimum temps for each city and for the entire country.
 	* Plots of the change in average temps for each city and for the entire country.
