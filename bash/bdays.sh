@@ -1,5 +1,5 @@
 #!/bin/bash
-rm -r plots/bdays
+rm -r plots/bdays/
 mkdir plots/bdays/
 for file in ./datasets/B-days/*.csv; do
     city=$(basename "$file" .csv)

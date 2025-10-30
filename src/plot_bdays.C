@@ -37,9 +37,24 @@ void plot_bdays(const char* filename, const char* city="City"){
     }
     in.close();
 
-    // --- Create canvas and multigraph ---
+    
     TCanvas* c = new TCanvas("c", Form("Average Temperature - %s", city), 900, 600);
     TMultiGraph* mg = new TMultiGraph();
+    TLegend* legend;
+    if (std::string(city) == "Lund")
+    {
+        legend = new TLegend(0.2, 0.8, 0.4, 0.95); 
+
+    }
+    else 
+    {
+        legend = new TLegend(0.70, 0.18, 0.90, 0.33);
+    }
+    legend->SetTextSize(0.03);    
+        legend->SetFillStyle(0);  
+        legend->SetBorderSize(1); 
+         
+
 
     int color = 2; // start color for first birthday
     for (auto& [key, vec] : data) {
@@ -55,6 +70,7 @@ void plot_bdays(const char* filename, const char* city="City"){
         gr->SetMarkerStyle(20);
         gr->SetTitle(Form("%02d-%02d", key.first, key.second)); // month-day
         mg->Add(gr);
+        legend->AddEntry(gr, Form("%02d-%02d", key.first, key.second), "lp");
 
         color++; // next birthday gets a different color
     }
@@ -62,7 +78,7 @@ void plot_bdays(const char* filename, const char* city="City"){
     mg->SetTitle(Form("Average Temperature in %s;Year;Temperature (#circC)", city));
     mg->Draw("APL");
 
-    c->BuildLegend();
+    legend->Draw();
     c->Update();
     c->Draw();
 
