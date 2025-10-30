@@ -14,22 +14,27 @@ YYYY-MM-DD Name LastName  <email@somewhere>
 
 
 # Example (entries from newest to oldest):
+
 2025-10-30 Linn Preuss Jelvez
 	birthday-part in report done
+
+2025-10-30 Lukas Nord
+	Project report
+	* The project report was written externally in collaboration on overleaf. It is now tracked on github.
 
 2025-10-29 Linn Preuss Jelvez
 	birthday analysis done
 	* created plots inluding the average temperature of our birthdays over time.
 
-2025-10-28 Linn Preuss Jelvez
-	birthday analysis
-	* started analysis of average temperature on our birthdays.
-
 2025-10-28 Lukas Nord
 	Climate shift analysis done
 	
+  2025-10-28 Linn Preuss Jelvez
+	birthday analysis
+	* started analysis of average temperature on our birthdays.
+  
 2025-10-28 Lukas Nord
-	climate shift analysis might be done
+	Climate shift analysis might be done
 
 	* Plots of the change in maximum and minimum temps for each city and for the entire country.
 	* Plots of the change in average temps for each city and for the entire country.
