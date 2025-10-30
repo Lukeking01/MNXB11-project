@@ -47,7 +47,7 @@
 % headers and footers
 %
 \RequirePackage{fancyhdr}  % custom headers/footers
-\RequirePackage{lastpage}  % Number of pages in the document
+%\RequirePackage{lastpage}  % Number of pages in the document
 \pagestyle{fancy}          % Enables the custom headers/footers
 % Headers
 \lhead{}%

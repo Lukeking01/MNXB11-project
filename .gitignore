@@ -52,3 +52,4 @@ main
 datasets/
 test/
 .vscode/
+plots/

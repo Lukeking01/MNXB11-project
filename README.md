@@ -50,6 +50,8 @@ The workflow includes:
         ├── src/ # C++ source files
         ├── preprocess.sh
         ├── run_all.sh
+        ├── tex
+            ├── all .tex files
         └── README.md
 
 

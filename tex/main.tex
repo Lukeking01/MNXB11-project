@@ -1,12 +1,18 @@
 
 
+\def\nameoflab{Temperature Trends in Sweden}
+\def\coursecode{MNXB11}
 
+\def\authorOne{Jens Hieronymus, Lukas Nord, Linn Preuss Jelvez}
+\def\authorOneMail{}
+\def\headerName{}
 
-%Presentation
-%  https://docs.google.com/presentation/d/1jtSYfxCzokL0dMorriBLjXmmLyCSVivzDEo1l8rjmb8/edit?usp=sharing
+\def\supervisor{}
+\def\supervisorMail{}
 
+\documentclass[12pt,titlepage]{article}
+\input{preamble.tex} 
 
-\documentclass[fleqn,10pt]{olplainarticle}
 % Use option lineno for line numbers 
 
 \usepackage{float}
@@ -17,16 +23,16 @@
 
 
 
-\title{Temperature Trends in Sweden}
+%\title{Temperature Trends in Sweden}
 
-\author[1]{Jens Hieronymus}
-\author[1]{Lukas Nord}
-\author[1]{Linn Preuss Jelvez}
-\affil[1]{Group 8}
+%\author[1]{Jens Hieronymus}
+%\author[1]{Lukas Nord}
+%\author[1]{Linn Preuss Jelvez}
+%\affil[1]{Group 8}
 
 \begin{document}
-
-\maketitle
+\input{frontpage.tex}
+%\maketitle
 % \begin{abstract}
 % Please provide an abstract of no more than 300 words. Your abstract should explain the main contributions of your article, and should not contain any material that is not included in the main text. 
 % \end{abstract}
@@ -42,21 +48,23 @@ Please provide an abstract of no more than 300 words. Your abstract should expla
 
 %\keywords{Solar Cycle, Climate, Birthdays}
 
-\input{tex/Introduction}
+\input{Introduction}
 
-\input{tex/Data_Methods}
+\input{Data_Methods}
 
-\input{tex/Research_questions}
+\input{Research_questions}
 
-\input{tex/Results}
-\input{tex/climate}
+\newpage
+\input{Results}
+\input{climate}
+\input{bdays}
 
-\input{tex/solar}
+\input{solar}
 
 
 %\input{tex/Discussion}
 
 
-\bibliography{sample}
+%\bibliography{sample}
 
 \end{document}
