@@ -64,8 +64,7 @@ The workflow includes:
 2. Run the main bash script to execute the full pipeline:
 
 ```bash
-./run_project.sh
-# (or the script name defined in scripts/)
+./run_all.sh
 ```
 
 This will:
@@ -73,7 +72,8 @@ This will:
 - Preprocess and convert the CSV data  
 - Compile the C++ code  
 - Perform the analyses  
-- Generate plots in the `output/` folder  
+- Generate plots in the `plots/` folders subdirectories
+- Generate the project report
 
 ---
 
@@ -82,14 +82,10 @@ This will:
 The analysis produces:
 
 - Long-term temperature trend plots for some Swedish stations  
-- Temperature evolution on specific dates (e.g., birthdays)  
+- Temperature evolution on specific dates 
 - Visualizations exploring temperature–solar correlations  
 
 > Results are saved as image files and can be directly used in reports or presentations.
 
 ---
 
-## Notes
-
-- The dataset is large; ensure sufficient memory and disk space.   
-- All analysis parameters and output paths can be adjusted in the corresponding Bash and C++ files.
