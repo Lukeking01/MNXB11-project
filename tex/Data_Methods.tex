@@ -16,4 +16,68 @@ The analysis of the temperature on our birthdays began with filtering the data t
 
 
 \subsection{Solar Activity Period Estimation}
-The analysis for the solar activity period estimation began by filtering the temperatures to be some time around midday (11:00 to 15:00 UTC), this was done in preparation for the next step. The next step was to adjust the temperatures based on what the expected solar output would be given the time, date and location. Filtering to times around midday allows for mitigation of some effects that would be caused by the atmosphere, as well as avoid times before sunrise and after sunset where the solar output would have been 0. With these adjusted temperatures, which essentially assume the sun is directly overhead, the next steps can be taken. Next the data was compiled by day of year, so that for each day of the year, there were data-points for each location and year (time could be ignored at this point). This was used to normalize the data for each day to a value between 0 and 1. This was done so that temperatures between the days of year could be compared. Now these normalized values were averaged for each month over the data, this data was plotted. Then a fast fourier transform was done on this data to see which frequenciers were dominant, this was also converted into periods to make it easier to examine
+The analysis for the solar activity period estimation began by filtering the temperatures to be some time around midday (11:00 to 15:00 UTC), this was done in preparation for the next step. The next step was to adjust the temperatures based on what the expected solar output would be given the time, date and location. Filtering to times around midday allows for mitigation of some effects that would be caused by the atmosphere, as well as avoid times before sunrise and after sunset where the solar output would have been 0. With these adjusted temperatures, which essentially assume the sun is directly overhead, the next steps can be taken. This is described in the equations below.\\
+
+The Equation of Time (EoT) quantifies the difference between solar time and mean clock time due to Earth's axial tilt and orbital eccentricity.  
+It is given in minutes as:
+\begin{align}
+    B &= \frac{2\pi (J - 81)}{364} \label{eq:B} \\
+    E_{\mathrm{oT}} &= 9.87 \sin(2B) - 7.53 \cos(B) - 1.5 \sin(B) \label{eq:EoT}
+\end{align}
+where \( J \) is the day of the year (\( J=1 \) for January 1). Where 81 is the approximate day of the year of the march equinox, and 364 is used instead of 365 to symmetrize the annual period.  \( B \) is the normalized angular position of earth in its orbit. The other numbers in the equation are derived from empirical data, on earths eccentricity as well as the behavior of the sun.\\
+
+The solar declination angle \( \delta \) (in radians) is the angular position of the Sun north or south of the celestial equator:
+\begin{equation}
+    \delta = 23.45^\circ \times \frac{2\pi}{180^\circ} \times 
+    \sin\!\left( B \right)
+\end{equation}
+where \(23.45^\circ\) is earths axial tilt.\\
+
+Because Earth's orbit is slightly elliptical, the distance to the Sun varies through the year.  
+The eccentricity correction factor \( E_0 \) adjusts the solar constant:
+\begin{equation}
+    E_0 = 1 + 0.033 \cos\!\left( \frac{2\pi J}{365} \right)
+\end{equation}
+where 0.033 is an estimate of earths eccentricity.\\
+
+The local solar time (LST) in hours is given by
+\begin{equation}
+    \mathrm{LST} = h_{\mathrm{UTC}} + \frac{4\lambda + E_{\mathrm{oT}}}{60}
+\end{equation}
+where \(h_{\mathrm{UTC}}\) is the time given in the dataset, and \(\lambda\) is the longitude also from the dataset. The 4 comes from the fact that 4 minutes occur for every degree earth rotates(\(4 \frac{min}{^\circ}\), and the 60 converts that to hours.\\
+
+The solar hour angle (in radians) is then
+\begin{equation}
+    H = 15^\circ  (\mathrm{LST} - 12)  \frac{2\pi}{180^\circ}
+\end{equation}
+where the \(15^\circ\) is the amount earth rotates per hour, and 12 is local noon on the local meridian.\\
+
+The cosine of the solar zenith angle, \( \mu_0 = \cos\theta_z \), depends on the observer's latitude \( \varphi \), the solar declination \( \delta \), and the solar hour angle \( H \):
+\begin{equation}
+    \mu_0 = \sin\varphi \, \sin\delta + \cos\varphi \, \cos\delta \, \cos H
+\end{equation}
+
+The top-of-atmosphere (TOA) horizontal irradiance \( G_{0h} \) at UTC hour \(h_{\mathrm{UTC}}\) is
+\begin{equation}
+    G_{0h}(J, h_{\mathrm{UTC}}, \lambda, \varphi) =
+    \begin{cases}
+        I_{\mathrm{sc}} \, E_0 \, \mu_0, & \mu_0 > 0 \\
+        0, & \text{otherwise.}
+    \end{cases}
+\end{equation}
+where \(I_{\mathrm{sc}} \approx 1367\frac{W}{m^2}\) is the standard output of the sun at earths distance. This accounts for solar declination, local hour angle, and orbital effects.\\  
+When \( \mu_0 \le 0 \), the Sun is below the horizon and no irradiance is received.\\
+
+For a given year (with \( D = 365 \) or \( 366 \) days), the mean TOA irradiance for a fixed UTC hour is
+\begin{equation}
+    \bar{G}_{0h}(h_{\mathrm{UTC}}, \lambda, \varphi) =
+    \frac{1}{D} \sum_{J=1}^{D} G_{0h}(J, h_{\mathrm{UTC}}, \lambda, \varphi)
+\end{equation}
+
+These 2 values are then subtracted and multiplied by a correlation factor \(\beta = 0.003 \frac{^\circ C m^2}{W}\) to arrive at the amount that would be subtracted from the temperature.
+\begin{equation}
+    t_{adj} = t_{data} - \beta(G_{0h}-\bar{G}_{0h})
+\end{equation}
+The value of \(\beta\) was chosen somewhat arbitrarily but another investigation would optimize it to minimize the variance of \(t_{adj}\) to eliminate atmospheric effects as much as possible. In such a case the next step can be skipped.\\
+
+Next the data was compiled by day of year, so that for each day of the year, there were data-points for each location and year (time could be ignored at this point). This was used to normalize the data for each day to a value between 0 and 1. This was done so that temperatures between the days of year could be compared. Now these normalized values were averaged for each month over the data, this data was plotted. Then a fast fourier transform was done on this data to see which frequencies were dominant, this was also converted into periods to make it easier to examine.
